@@ -4,7 +4,7 @@
   "expo": {
     "name": "Bookology",
     "slug": "Bookology",
-    "scheme": "bookology",
+    "scheme": ["bookology", "com.supabase"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-all.png",
