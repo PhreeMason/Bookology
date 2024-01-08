@@ -1,7 +1,9 @@
+import { BookItem } from './../../models/Book';
 /**
  * These types indicate the shape of the data you expect to receive from your
  * API endpoint, assuming it's a JSON object like we have.
  */
+
 export interface EpisodeItem {
   title: string
   pubDate: string
@@ -32,6 +34,12 @@ export interface ApiFeedResponse {
     image: string
   }
   items: EpisodeItem[]
+}
+
+export interface BooksResponse {
+  kind: string;
+  totalItems: number;
+  items: BookItem[];
 }
 
 /**

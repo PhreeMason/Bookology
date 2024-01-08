@@ -1,4 +1,5 @@
 import i18n from "i18n-js"
+// @ts-ignore
 import React from "react"
 import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
 import { isRTL, translate, TxKeyPath } from "../i18n"

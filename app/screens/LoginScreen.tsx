@@ -1,16 +1,17 @@
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { TextInput, TextStyle, ViewStyle } from "react-native"
+import { TextInput, TextStyle, ViewStyle, Alert } from "react-native"
 import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
+import { supabase } from "../../lib/supabase"
 
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
   const authPasswordInput = useRef<TextInput>(null)
-
+  const [loading, setLoading] = useState(false)
   const [authPassword, setAuthPassword] = useState("")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -32,17 +33,46 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     }
   }, [])
 
-  const error = isSubmitted ? validationError : ""
+  let formError = isSubmitted ? validationError : ""
+
+  async function signUpWithEmail() {
+    setLoading(true)
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email: authEmail,
+      password: authPassword,
+    })
+
+    if (error) Alert.alert(error.message)
+    if (!session) Alert.alert('Please check your inbox for email verification!')
+    setLoading(false)
+  }
 
   function login() {
     setIsSubmitted(true)
+    setLoading(true)
     setAttemptsCount(attemptsCount + 1)
 
     if (validationError) return
 
     // Make a request to your server to get an authentication token.
     // If successful, reset the fields and set the token.
+    const { error } = await supabase.auth.signInWithPassword({
+      email: authEmail,
+      password: authPassword,
+    })
+
+    setLoading(false)
     setIsSubmitted(false)
+
+    if (error) {
+      Alert.alert(error.message)
+      formError = error.message;
+      return;
+    }
+
     setAuthPassword("")
     setAuthEmail("")
 
@@ -72,7 +102,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       contentContainerStyle={$screenContentContainer}
       safeAreaEdges={["top", "bottom"]}
     >
-      <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} />
+      <Text tx="loginScreen.signIn" preset="heading" style={$signIn} />
       <Text tx="loginScreen.enterDetails" preset="subheading" style={$enterDetails} />
       {attemptsCount > 2 && <Text tx="loginScreen.hint" size="sm" weight="light" style={$hint} />}
 
@@ -86,8 +116,8 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         keyboardType="email-address"
         labelTx="loginScreen.emailFieldLabel"
         placeholderTx="loginScreen.emailFieldPlaceholder"
-        helper={error}
-        status={error ? "error" : undefined}
+        helper={formError}
+        status={formError ? "error" : undefined}
         onSubmitEditing={() => authPasswordInput.current?.focus()}
       />
 
@@ -107,7 +137,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       />
 
       <Button
-        testID="login-button"
+        tx="loginScreen.tapToSignIn"
+        style={$tapButton}
+        preset="reversed"
+        onPress={login}
+      />
+      <Button
         tx="loginScreen.tapToSignIn"
         style={$tapButton}
         preset="reversed"

@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+// @ts-ignore
 import React from "react"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Icon, iconRegistry, IconTypes, Text } from "../../../components"

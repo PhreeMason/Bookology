@@ -4,18 +4,17 @@ import { CompositeScreenProps } from "@react-navigation/native"
 import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { Icon } from "../components"
 import { translate } from "../i18n"
-import { DemoCommunityScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
-import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
+import { LibraryScreen, PlannerScreen, StatsScreen, StoreScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { MaterialCommunityIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
-export type DemoTabParamList = {
-  DemoCommunity: undefined
-  DemoShowroom: { queryIndex?: string; itemIndex?: string }
-  DemoDebug: undefined
-  DemoPodcastList: undefined
+export type BookScheduleTabParamList = {
+  Library: undefined
+  Planner: undefined
+  Stats: undefined
+  Store: undefined
 }
 
 /**
@@ -23,14 +22,14 @@ export type DemoTabParamList = {
  *
  * More info: https://reactnavigation.org/docs/typescript/#organizing-types
  */
-export type DemoTabScreenProps<T extends keyof DemoTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<DemoTabParamList, T>,
+export type BookScheduleTabScreenProps<T extends keyof BookScheduleTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<BookScheduleTabParamList, T>,
   AppStackScreenProps<keyof AppStackParamList>
 >
 
-const Tab = createBottomTabNavigator<DemoTabParamList>()
+const Tab = createBottomTabNavigator<BookScheduleTabParamList>()
 
-export function DemoNavigator() {
+export function BookScheduleNavigator() {
   const { bottom } = useSafeAreaInsets()
 
   return (
@@ -46,46 +45,46 @@ export function DemoNavigator() {
       }}
     >
       <Tab.Screen
-        name="DemoShowroom"
-        component={DemoShowroomScreen}
+        name="Library"
+        component={LibraryScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.componentsTab"),
+          tabBarLabel: translate("bookScheduleNavigator.libaryTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="components" color={focused ? colors.tint : undefined} size={30} />
+            <MaterialCommunityIcons name="bookshelf" size={24} color={focused ? colors.tint : "black"} />
           ),
         }}
       />
 
       <Tab.Screen
-        name="DemoCommunity"
-        component={DemoCommunityScreen}
+        name="Planner"
+        component={PlannerScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.communityTab"),
+          tabBarLabel: translate("bookScheduleNavigator.plannerTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="community" color={focused ? colors.tint : undefined} size={30} />
+            <FontAwesome5 name="calendar-alt" size={24} color={focused ? colors.tint : "black"} />
           ),
         }}
       />
 
       <Tab.Screen
-        name="DemoPodcastList"
-        component={DemoPodcastListScreen}
+        name="Stats"
+        component={StatsScreen}
         options={{
-          tabBarAccessibilityLabel: translate("demoNavigator.podcastListTab"),
-          tabBarLabel: translate("demoNavigator.podcastListTab"),
+          tabBarAccessibilityLabel: translate("bookScheduleNavigator.statsTab"),
+          tabBarLabel: translate("bookScheduleNavigator.statsTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="podcast" color={focused ? colors.tint : undefined} size={30} />
+            <Ionicons name="stats-chart" size={24} color={focused ? colors.tint : "black"} />
           ),
         }}
       />
 
       <Tab.Screen
-        name="DemoDebug"
-        component={DemoDebugScreen}
+        name="Store"
+        component={StoreScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.debugTab"),
+          tabBarLabel: translate("bookScheduleNavigator.storeTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="debug" color={focused ? colors.tint : undefined} size={30} />
+            <FontAwesome5 name="store" size={24} color={focused ? colors.tint : "black"} />
           ),
         }}
       />

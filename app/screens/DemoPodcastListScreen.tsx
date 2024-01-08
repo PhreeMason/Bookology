@@ -99,7 +99,7 @@ export const DemoPodcastListScreen: FC<DemoTabScreenProps<"DemoPodcastList">> = 
                     ? "demoPodcastListScreen.noFavoritesEmptyState.content"
                     : undefined
                 }
-                button={episodeStore.favoritesOnly ? "" : undefined}
+                button={episodeStore.favoritesOnly ? "77777" : undefined}
                 buttonOnPress={manualRefresh}
                 imageStyle={$emptyStateImage}
                 ImageProps={{ resizeMode: "contain" }}

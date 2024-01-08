@@ -1,4 +1,5 @@
 import App from "./app/app"
+// @ts-ignore
 import React from "react"
 import * as SplashScreen from "expo-splash-screen"
 

@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key, react-native/no-inline-styles */
+// @ts-ignore
 import React from "react"
 import { EmptyState } from "../../../components"
 import { colors } from "../../../theme"

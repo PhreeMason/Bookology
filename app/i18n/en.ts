@@ -11,6 +11,15 @@ const en = {
     readyForLaunch: "Your app, almost ready for launch!",
     exciting: "(ohh, this is exciting!)",
     letsGo: "Let's go!",
+    libary: "Library",
+  },
+  libaryScreen: {
+    postscript:
+      "psst  — This probably isn't what your app looks like. (Unless your designer handed you these screens, and in that case, ship it!)",
+    readyForLaunch: "Your app, almost ready for launch!",
+    exciting: "(ohh, this is exciting!)",
+    header: "Your Library",
+    libary: "Library",
   },
   errorScreen: {
     title: "Something went wrong!",
@@ -32,6 +41,7 @@ const en = {
   },
   loginScreen: {
     signIn: "Sign In",
+    signUp: "Sign Up",
     enterDetails:
       "Enter your details below to unlock top secret info. You'll never guess what we've got waiting. Or maybe you will; it's not rocket science here.",
     emailFieldLabel: "Email",
@@ -46,6 +56,12 @@ const en = {
     debugTab: "Debug",
     communityTab: "Community",
     podcastListTab: "Podcast",
+  },
+  bookScheduleNavigator: {
+    libaryTab: "Library",
+    plannerTab: "Planner",
+    statsTab: "Stats",
+    storeTab: "Store",
   },
   demoCommunityScreen: {
     title: "Connect with the community",

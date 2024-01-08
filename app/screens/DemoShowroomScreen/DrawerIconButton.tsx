@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from "react"
 import { Pressable, PressableProps, ViewStyle } from "react-native"
 import Animated, { interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated"

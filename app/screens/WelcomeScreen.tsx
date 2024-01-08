@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite"
+// @ts-ignore
 import React, { FC } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Button, Text } from "app/components"
@@ -22,6 +23,10 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
 
   function goNext() {
     navigation.navigate("Demo", { screen: "DemoShowroom", params: {} })
+  }
+
+  function goBookApp() {
+    navigation.navigate("BookSchedule", { screen: "Library", })
   }
 
   useHeader(
@@ -56,6 +61,12 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
           preset="reversed"
           tx="welcomeScreen.letsGo"
           onPress={goNext}
+        />
+        <Button
+          testID="book-screen-button"
+          preset="reversed"
+          tx="welcomeScreen.libary"
+          onPress={goBookApp}
         />
       </View>
     </View>

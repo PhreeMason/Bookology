@@ -12,12 +12,14 @@ import {
 } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
+// @ts-ignore
 import React from "react"
 import { useColorScheme } from "react-native"
 import * as Screens from "app/screens"
 import Config from "../config"
 import { useStores } from "../models"
 import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
+import { BookScheduleNavigator, BookScheduleTabParamList } from "./BookScheduleNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
 
@@ -39,7 +41,12 @@ export type AppStackParamList = {
   Login: undefined
   Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  BookSchedule: NavigatorScreenParams<BookScheduleTabParamList>
+	Library: undefined
+	Planner: undefined
+	Stats: undefined
+	Store: undefined
+	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -71,6 +78,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
 
           <Stack.Screen name="Demo" component={DemoNavigator} />
+          <Stack.Screen name="BookSchedule" component={BookScheduleNavigator} />
         </>
       ) : (
         <>
@@ -79,7 +87,12 @@ const AppStack = observer(function AppStack() {
       )}
 
       {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      {/* <Stack.Screen name="BookSchedule" component={Screens.BookScheduleScreen} />
+			<Stack.Screen name="Library" component={Screens.LibraryScreen} />
+			<Stack.Screen name="Planner" component={Screens.PlannerScreen} />
+			<Stack.Screen name="Stats" component={Screens.StatsScreen} />
+			<Stack.Screen name="Store" component={Screens.StoreScreen} /> */}
+			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })

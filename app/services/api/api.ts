@@ -1,15 +1,16 @@
 /**
  * This Api class lets you define an API endpoint and methods to request
  * data and process it.
- *
- * See the [Backend API Integration](https://github.com/infinitered/ignite/blob/master/docs/Backend-API-Integration.md)
- * documentation for more details.
- */
+*
+* See the [Backend API Integration](https://github.com/infinitered/ignite/blob/master/docs/Backend-API-Integration.md)
+* documentation for more details.
+*/
 import { ApiResponse, ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
-import type { ApiConfig, ApiFeedResponse } from "./api.types"
+import type { ApiConfig, ApiFeedResponse, BooksResponse } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode"
+import { BookItem } from './../../models/Book';
 
 /**
  * Configuring the apisauce instance.
@@ -67,6 +68,69 @@ export class Api {
         })) ?? []
 
       return { kind: "ok", episodes }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
+   * Gets a list of books that match the search params
+   */
+  async searchBooks(queryParam: string): Promise<{ kind: "ok"; books: BookItem[] } | GeneralApiProblem> {
+    const searchUrl = Config.googleBooksApi + '?q=' + queryParam;
+    // make the api call
+    const response: ApiResponse<BooksResponse> = await this.apisauce.get(searchUrl)
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    // transform the data into the format we are expecting
+    try {
+      const rawData = response.data
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const books: BookItem[] =
+        rawData?.items.map((raw) => ({
+          ...raw,
+        })) ?? []
+
+      return { kind: "ok", books }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getBooks(): Promise<{ kind: "ok"; books: BookItem[] } | GeneralApiProblem> {
+    const searchUrl = Config.googleBooksApi + '?q=fyodor+dostoevsky';
+    // make the api call
+    const response: ApiResponse<BooksResponse> = await this.apisauce.get(searchUrl)
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    // transform the data into the format we are expecting
+    try {
+      const rawData = response.data
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const books: BookItem[] =
+        rawData?.items.map((raw) => ({
+          ...raw,
+        })) ?? []
+
+      return { kind: "ok", books }
     } catch (e) {
       if (__DEV__ && e instanceof Error) {
         console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)

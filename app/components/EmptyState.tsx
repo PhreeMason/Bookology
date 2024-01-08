@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from "react"
 import { Image, ImageProps, ImageStyle, StyleProp, TextStyle, View, ViewStyle } from "react-native"
 import { translate } from "../i18n"

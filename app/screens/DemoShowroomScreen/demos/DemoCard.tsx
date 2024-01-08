@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key, react-native/no-inline-styles */
+// @ts-ignore
 import React from "react"
 import { AutoImage, Button, Card, Icon } from "../../../components"
 import { colors, spacing } from "../../../theme"

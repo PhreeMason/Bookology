@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key, react-native/no-inline-styles */
+// @ts-ignore
 import React from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { AutoImage, Text } from "../../../components"

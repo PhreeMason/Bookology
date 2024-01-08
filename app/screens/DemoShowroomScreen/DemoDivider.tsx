@@ -1,4 +1,5 @@
 /* eslint-disable  react-native/no-inline-styles */
+// @ts-ignore
 import React from "react"
 import { StyleProp, View, ViewStyle } from "react-native"
 import { colors } from "../../theme"
