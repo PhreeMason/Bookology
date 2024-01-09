@@ -63,6 +63,7 @@ const en = {
     plannerTab: "Planner",
     statsTab: "Stats",
     storeTab: "Store",
+    acountTab: "Account",
   },
   demoCommunityScreen: {
     title: "Connect with the community",

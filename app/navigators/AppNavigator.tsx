@@ -48,7 +48,8 @@ export type AppStackParamList = {
   Planner: undefined
   Stats: undefined
   Store: undefined
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  Account: undefined
+	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -79,7 +80,7 @@ const AppStack = observer(function AppStack() {
       authenticationStore.setSession(session)
     })
   }, [])
-  console.log('isAuthenticated', isAuthenticated)
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
@@ -104,7 +105,8 @@ const AppStack = observer(function AppStack() {
 			<Stack.Screen name="Planner" component={Screens.PlannerScreen} />
 			<Stack.Screen name="Stats" component={Screens.StatsScreen} />
 			<Stack.Screen name="Store" component={Screens.StoreScreen} /> */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      {/* <Stack.Screen name="Account" component={Screens.AccountScreen} /> */}
+			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })
