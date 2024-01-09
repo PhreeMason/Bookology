@@ -10,7 +10,7 @@ import {
   ListView,
   Screen,
   Text,
-  ListItem,
+  Divider,
   BookCover
 } from "../components"
 import { Book } from "../models/Book"
@@ -71,11 +71,12 @@ export const LibraryScreen: FC<LibraryScreenProps> = observer(function LibrarySc
           </View>
         }
         renderItem={({ item, index }) => (
-          <ListItem topSeparator={index > 0}>
+          <View>
+            {index > 0 && <Divider />}
             <BookCover
               book={item}
             />
-          </ListItem>
+          </View>
 
         )}
       />
@@ -104,5 +105,9 @@ const $emptyState: ViewStyle = {
 
 const $emptyStateImage: ImageStyle = {
   transform: [{ scaleX: isRTL ? -1 : 1 }],
+}
+
+const $bookCoverItem: ViewStyle = {
+  justifyContent: "space-between",
 }
 // #endregion

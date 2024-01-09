@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StyleProp, View, ViewStyle, Pressable } from "react-native"
 import { observer } from "mobx-react-lite"
-// import { colors, typography } from "app/theme"
+import { colors, typography, spacing } from "app/theme"
 import { AutoImage } from "./AutoImage"
 import { Book } from "../models/Book"
 import {
@@ -39,7 +39,7 @@ export const BookCover = observer(function BookCover(props: BookCoverProps) {
 })
 
 const $container: ViewStyle = {
-
+  marginBottom: spacing.sm,
 }
 
 const $bookCover: ViewStyle = {
@@ -53,4 +53,5 @@ const $text: ViewStyle = {
   marginLeft: 10,
   flex: 1,
   flexWrap: "wrap",
+  // stop words from going off screen
 }
