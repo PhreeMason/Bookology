@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle, Alert, View } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
-import { Screen, TextField, Button } from "app/components"
+import { Screen, TextField, Button, Avatar } from "app/components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { useState, useEffect } from 'react'
@@ -90,6 +90,16 @@ export const AccountScreen: FC<AccountScreenProps> = observer(function AccountSc
   }
   return (
     <Screen preset="scroll" contentContainerStyle={$container} safeAreaEdges={["top"]}>
+      <View>
+        <Avatar
+          size={200}
+          url={avatarUrl}
+          onUpload={(url: string) => {
+            setAvatarUrl(url)
+            updateProfile({ username, website, avatar_url: url })
+          }}
+        />
+      </View>
       <View style={[$verticallySpaced, $mt20]}>
         <TextField
           status="disabled"
@@ -129,7 +139,7 @@ export const AccountScreen: FC<AccountScreenProps> = observer(function AccountSc
           )}
           onPress={() => supabase.auth.signOut()}
         >
-           Sign Out
+          Sign Out
         </Button>
       </View>
     </Screen>

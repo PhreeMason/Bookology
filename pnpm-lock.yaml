@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@expo-google-fonts/space-grotesk':
     specifier: ^0.2.2
@@ -47,6 +43,9 @@ dependencies:
   expo-font:
     specifier: ~11.4.0
     version: 11.4.0(expo@49.0.21)
+  expo-image-picker:
+    specifier: ~14.3.2
+    version: 14.3.2(expo@49.0.21)
   expo-linking:
     specifier: ~5.0.2
     version: 5.0.2(expo@49.0.21)
@@ -71,6 +70,9 @@ dependencies:
   mobx-state-tree:
     specifier: 5.3.0
     version: 5.3.0(mobx@6.10.2)
+  nanoid:
+    specifier: ^5.0.4
+    version: 5.0.4
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -4988,6 +4990,23 @@ packages:
       fontfaceobserver: 2.3.0
     dev: false
 
+  /expo-image-loader@4.3.0(expo@49.0.21):
+    resolution: {integrity: sha512-2kqJIO+oYM8J3GbvTUHLqTSpt1dLpOn/X0eB4U4RTuzz/faj8l/TyQELsMBLlGAkweNUuG9LqznbaBz+WuSFEw==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.21(@babel/core@7.23.7)
+    dev: false
+
+  /expo-image-picker@14.3.2(expo@49.0.21):
+    resolution: {integrity: sha512-xr/YeQMIYheXecWP033F2SPwpBlBR5xVCx7YSfSCTH8Y9pw7Z886agqKGbS9QBVGlzJ5qecJktZ6ASSzeslDVg==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.21(@babel/core@7.23.7)
+      expo-image-loader: 4.3.0(expo@49.0.21)
+    dev: false
+
   /expo-keep-awake@12.3.0(expo@49.0.21):
     resolution: {integrity: sha512-ujiJg1p9EdCOYS05jh5PtUrfiZnK0yyLy+UewzqrjUqIT8eAGMQbkfOn3C3fHE7AKd5AefSMzJnS3lYZcZYHDw==}
     peerDependencies:
@@ -7563,6 +7582,12 @@ packages:
   /nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: false
+
+  /nanoid@5.0.4:
+    resolution: {integrity: sha512-vAjmBf13gsmhXSgBrtIclinISzFFy22WwCYoyilZlsrRXNIHSwgFQ1bEdjRwMT3aoadeIF6HMuDRlOxzfXV8ig==}
+    engines: {node: ^18 || >=20}
     hasBin: true
     dev: false
 
@@ -10239,3 +10264,7 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
