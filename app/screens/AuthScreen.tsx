@@ -5,26 +5,25 @@ import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
-import { supabase } from "../../lib/supabase"
+import { supabase } from "../utils/supabase"
 
-interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
+interface AuthScreenProps extends AppStackScreenProps<"Login"> {}
 
-export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
+export const AuthScreen: FC<AuthScreenProps> = observer(function AuthScreen(_props) {
   const authPasswordInput = useRef<TextInput>(null)
-  const [loading, setLoading] = useState(false)
   const [authPassword, setAuthPassword] = useState("")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [attemptsCount, setAttemptsCount] = useState(0)
   const {
-    authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError },
+    authenticationStore: { authEmail, setAuthEmail, setSession, validationError },
   } = useStores()
 
   useEffect(() => {
     // Here is where you could fetch credentials from keychain or storage
     // and pre-fill the form fields.
-    setAuthEmail("ignite@infinite.red")
-    setAuthPassword("ign1teIsAwes0m3")
+    setAuthEmail("ahhsum45@gmail.com")
+    setAuthPassword("donna5045")
 
     // Return a "cleanup" function that React will run when the component unmounts
     return () => {
@@ -36,7 +35,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   let formError = isSubmitted ? validationError : ""
 
   async function signUpWithEmail() {
-    setLoading(true)
     const {
       data: { session },
       error,
@@ -47,24 +45,24 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
     if (error) Alert.alert(error.message)
     if (!session) Alert.alert('Please check your inbox for email verification!')
-    setLoading(false)
+    
+    setSession(session)
+    setIsSubmitted(false)
   }
 
-  function login() {
+  async function login() {
     setIsSubmitted(true)
-    setLoading(true)
     setAttemptsCount(attemptsCount + 1)
 
     if (validationError) return
 
     // Make a request to your server to get an authentication token.
     // If successful, reset the fields and set the token.
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error, data: { session } } = await supabase.auth.signInWithPassword({
       email: authEmail,
       password: authPassword,
     })
 
-    setLoading(false)
     setIsSubmitted(false)
 
     if (error) {
@@ -77,7 +75,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     setAuthEmail("")
 
     // We'll mock this with a fake token.
-    setAuthToken(String(Date.now()))
+    setSession(session)
   }
 
   const PasswordRightAccessory: ComponentType<TextFieldAccessoryProps> = useMemo(
@@ -137,10 +135,10 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       />
 
       <Button
-        tx="loginScreen.tapToSignIn"
+        tx="loginScreen.tapToSignUp"
         style={$tapButton}
         preset="reversed"
-        onPress={login}
+        onPress={signUpWithEmail}
       />
       <Button
         tx="loginScreen.tapToSignIn"

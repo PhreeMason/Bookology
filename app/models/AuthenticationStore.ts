@@ -1,14 +1,19 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Session } from "@supabase/supabase-js"
 
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
   .props({
-    authToken: types.maybe(types.string),
+    session: types.maybeNull(types.frozen<Session>()),
     authEmail: "",
+    authError: ""
   })
   .views((store) => ({
     get isAuthenticated() {
-      return !!store.authToken
+      return !!store.session
+    },
+    get user() {
+      return store.session?.user
     },
     get validationError() {
       if (store.authEmail.length === 0) return "can't be blank"
@@ -19,15 +24,15 @@ export const AuthenticationStoreModel = types
     },
   }))
   .actions((store) => ({
-    setAuthToken(value?: string) {
-      store.authToken = value
-    },
     setAuthEmail(value: string) {
       store.authEmail = value.replace(/ /g, "")
     },
     logout() {
-      store.authToken = undefined
+      store.session = null
       store.authEmail = ""
+    },
+    setSession(session: Session | null) {
+      store.session = session;
     },
   }))
 

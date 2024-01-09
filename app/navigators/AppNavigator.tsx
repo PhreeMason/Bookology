@@ -22,6 +22,8 @@ import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { BookScheduleNavigator, BookScheduleTabParamList } from "./BookScheduleNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
+import { supabase } from "app/utils/supabase"
+import { useEffect } from "react"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -42,11 +44,11 @@ export type AppStackParamList = {
   Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
   BookSchedule: NavigatorScreenParams<BookScheduleTabParamList>
-	Library: undefined
-	Planner: undefined
-	Stats: undefined
-	Store: undefined
-	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  Library: undefined
+  Planner: undefined
+  Stats: undefined
+  Store: undefined
+  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -64,10 +66,20 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
-  const {
-    authenticationStore: { isAuthenticated },
-  } = useStores()
+  const { authenticationStore } = useStores();
 
+  const { isAuthenticated } = authenticationStore
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      authenticationStore.setSession(session)
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      authenticationStore.setSession(session)
+    })
+  }, [])
+  console.log('isAuthenticated', isAuthenticated)
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
@@ -82,7 +94,7 @@ const AppStack = observer(function AppStack() {
         </>
       ) : (
         <>
-          <Stack.Screen name="Login" component={Screens.LoginScreen} />
+          <Stack.Screen name="Login" component={Screens.AuthScreen} />
         </>
       )}
 
@@ -92,13 +104,13 @@ const AppStack = observer(function AppStack() {
 			<Stack.Screen name="Planner" component={Screens.PlannerScreen} />
 			<Stack.Screen name="Stats" component={Screens.StatsScreen} />
 			<Stack.Screen name="Store" component={Screens.StoreScreen} /> */}
-			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })
 
 export interface NavigationProps
-  extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+  extends Partial<React.ComponentProps<typeof NavigationContainer>> { }
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
   const colorScheme = useColorScheme()
