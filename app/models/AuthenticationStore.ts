@@ -32,6 +32,7 @@ export const AuthenticationStoreModel = types
       store.authEmail = ""
     },
     setSession(session: Session | null) {
+      console.log({ session })
       store.session = session;
     },
   }))

@@ -7,14 +7,19 @@ import { withSetPropAction } from "./helpers/withSetPropAction"
 export const BookModel = types
   .model("Book")
   .props({
+    dbId: types.optional(types.number, 0),
     id: types.identifier,
     volumeInfo: types.frozen<BookItem['volumeInfo']>()
   })
   .actions(withSetPropAction)
   .views((book) => ({
     get bookCoverLink() {
-      const { imageLinks: {smallThumbnail, thumbnail, small, medium, large } } = book.volumeInfo
-      const coverLink =  thumbnail || smallThumbnail || small || medium || large;
+      const { imageLinks } = book.volumeInfo
+      let coverLink = 'https://placehold.co/400x600/000000/FFF'
+      if (imageLinks) {
+        const { smallThumbnail, thumbnail, small, medium, large } = imageLinks
+        coverLink =  ( small || medium || large || thumbnail || smallThumbnail);
+      }
       return {uri: coverLink};
     },
     get authorsString() {

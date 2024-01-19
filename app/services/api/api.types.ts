@@ -36,10 +36,18 @@ export interface ApiFeedResponse {
   items: EpisodeItem[]
 }
 
-export interface BooksResponse {
+export interface BooksSearchResponse {
   kind: string;
   totalItems: number;
   items: BookItem[];
+}
+
+export interface BookDetailsResponse {
+  kind: string;
+  id: string;
+  etag: string;
+  selfLink: string;
+  volumeInfo: BookItem['volumeInfo'];
 }
 
 /**

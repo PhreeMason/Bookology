@@ -8,7 +8,7 @@
 import { ApiResponse, ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
-import type { ApiConfig, ApiFeedResponse, BooksResponse } from "./api.types"
+import type { ApiConfig, ApiFeedResponse, BooksSearchResponse, BookDetailsResponse } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode"
 import { BookItem } from './../../models/Book';
 
@@ -82,7 +82,7 @@ export class Api {
   async searchBooks(queryParam: string): Promise<{ kind: "ok"; books: BookItem[] } | GeneralApiProblem> {
     const searchUrl = Config.googleBooksApi + '?q=' + queryParam;
     // make the api call
-    const response: ApiResponse<BooksResponse> = await this.apisauce.get(searchUrl)
+    const response: ApiResponse<BooksSearchResponse> = await this.apisauce.get(searchUrl)
 
     // the typical ways to die when calling an api
     if (!response.ok) {
@@ -112,7 +112,7 @@ export class Api {
   async getBooks(): Promise<{ kind: "ok"; books: BookItem[] } | GeneralApiProblem> {
     const searchUrl = Config.googleBooksApi + '?q=fyodor+dostoevsky';
     // make the api call
-    const response: ApiResponse<BooksResponse> = await this.apisauce.get(searchUrl)
+    const response: ApiResponse<BooksSearchResponse> = await this.apisauce.get(searchUrl)
 
     // the typical ways to die when calling an api
     if (!response.ok) {
@@ -137,6 +137,22 @@ export class Api {
       }
       return { kind: "bad-data" }
     }
+  }
+  async getBookDetail(id: string): Promise<{ kind: "ok"; book: BookItem } | GeneralApiProblem> {
+    const searchUrl = Config.googleBooksApi + '/' + id;
+    // make the api call
+    const response: ApiResponse<BookDetailsResponse> = await this.apisauce.get(searchUrl)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    const book = response.data
+    if (!book) {
+      return { kind: "bad-data" }
+    }
+    return { kind: "ok", book }
   }
 }
 

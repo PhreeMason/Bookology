@@ -1,8 +1,9 @@
-// @ts-ignore
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle, ImageStyle, View, ActivityIndicator } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
+import { useNavigation } from "@react-navigation/native"
+import { useStores } from "app/models"
 import { spacing } from "../theme"
 import { isRTL } from "../i18n"
 import {
@@ -11,47 +12,38 @@ import {
   Screen,
   Text,
   Divider,
-  BookCover
+  BookCover,
+  TextField,
 } from "../components"
 import { Book } from "../models/Book"
 import { type ContentStyle } from "@shopify/flash-list"
 
-// import { useNavigation } from "@react-navigation/native"
-import { useStores } from "app/models"
+interface BookSearchScreenProps extends AppStackScreenProps<"BookSearch"> {}
 
-interface LibraryScreenProps extends AppStackScreenProps<"Library"> { }
-
-export const LibraryScreen: FC<LibraryScreenProps> = observer(function LibraryScreen() {
-  // Pull in one of our MST stores
-  const { libaryStore } = useStores()
-  // const [searching, setSearching] = useState(false)
+export const BookSearchScreen: FC<BookSearchScreenProps> = observer(function BookSearchScreen() {
+  const [searching, setSearching] = useState(false)
+  const [query, setQuery] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [refreshing, setRefreshing] = useState(false)
+  const { libaryStore } = useStores()
+  const navigation = useNavigation()
 
-  useEffect(() => {
-    ; (async function load() {
-      setIsLoading(true)
-      await libaryStore.fetchMyBooks()
-      setIsLoading(false)
-    })()
-  }, [libaryStore])
-
-  async function manualRefresh() {
-    console.log('manually refreshing')
-    setRefreshing(true)
-    await libaryStore.fetchMyBooks(true)
-    setRefreshing(false)
+  const searchForBook = async () => {
+    if (!query) return
+    if (query.length < 3) return
+    if (searching) return
+    setSearching(true)
+    await libaryStore.findBook(query)
+    setSearching(false)
   }
 
   return (
     <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
       <ListView<Book>
         contentContainerStyle={$listContentContainer}
-        data={libaryStore.booksForList.slice()}
+        data={libaryStore.searchForList.slice()}
         // extraData={libaryStore.favorites.length + libaryStore.episodes.length}
-        refreshing={refreshing}
+        refreshing={searching}
         estimatedItemSize={20}
-        onRefresh={manualRefresh}
         ListEmptyComponent={
           isLoading ? (
             <ActivityIndicator />
@@ -60,7 +52,6 @@ export const LibraryScreen: FC<LibraryScreenProps> = observer(function LibrarySc
               preset="generic"
               style={$emptyState}
               button={undefined}
-              buttonOnPress={manualRefresh}
               imageStyle={$emptyStateImage}
               ImageProps={{ resizeMode: "contain" }}
             />
@@ -69,6 +60,12 @@ export const LibraryScreen: FC<LibraryScreenProps> = observer(function LibrarySc
         ListHeaderComponent={
           <View style={$heading}>
             <Text preset="heading" tx="libaryScreen.header" />
+            <TextField 
+              placeholder="Search"
+              value={query}
+              onChangeText={setQuery}
+              onSubmitEditing={searchForBook}
+            />
           </View>
         }
         renderItem={({ item, index }) => (
@@ -76,7 +73,7 @@ export const LibraryScreen: FC<LibraryScreenProps> = observer(function LibrarySc
             {index > 0 && <Divider />}
             <BookCover
               book={item}
-              onPress={() => null}
+              maxWidth={50}
             />
           </View>
 

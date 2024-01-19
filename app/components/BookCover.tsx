@@ -7,6 +7,7 @@ import { Book } from "../models/Book"
 import {
   Text,
 } from "../components"
+import { Link } from "@react-navigation/native"
 
 export interface BookCoverProps {
   /**
@@ -14,26 +15,28 @@ export interface BookCoverProps {
    */
   style?: StyleProp<ViewStyle>
   book: Book
+  maxWidth?: number
+  onPress?: () => void
 }
 
 /**
  * Describe your component here
  */
 export const BookCover = observer(function BookCover(props: BookCoverProps) {
-  const { style, book } = props
+  const { style, book, maxWidth, onPress } = props
   const { volumeInfo: { title } } = book
   const $styles = [$container, style]
   return (
     <View style={$styles}>
-      <Pressable onPress={() => console.log('book selected')}>
+      <Link to={`/Modal/${book.id}`} onPress={onPress}>
         <View style={$bookCover}>
-          <AutoImage source={book.bookCoverLink} maxWidth={100} />
+          <AutoImage source={book.bookCoverLink} maxWidth={maxWidth || 100} />
           <View style={$text}>
             <Text weight="bold" size="md" text={title} />
             <Text text={book.authorsString} size="md" weight="light"/>
           </View>
         </View>
-      </Pressable>
+      </Link>
     </View>
   )
 })

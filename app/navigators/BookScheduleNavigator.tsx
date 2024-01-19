@@ -5,7 +5,7 @@ import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { translate } from "../i18n"
-import { LibraryScreen, PlannerScreen, StatsScreen, AccountScreen } from "../screens"
+import { LibraryScreen, PlannerScreen, StatsScreen, AccountScreen, BookSearchScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { MaterialCommunityIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ export type BookScheduleTabParamList = {
   Planner: undefined
   Stats: undefined
   Account: undefined
+  BookSearch: undefined
 }
 
 /**
@@ -62,6 +63,17 @@ export function BookScheduleNavigator() {
           tabBarLabel: translate("bookScheduleNavigator.plannerTab"),
           tabBarIcon: ({ focused }) => (
             <FontAwesome5 name="calendar-alt" size={24} color={focused ? colors.tint : "black"} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="BookSearch"
+        component={BookSearchScreen}
+        options={{
+          tabBarLabel: translate("bookScheduleNavigator.plannerTab"),
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome5 name="search-plus" size={24} color={colors.textDim} />
           ),
         }}
       />

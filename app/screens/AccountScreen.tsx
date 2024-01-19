@@ -29,7 +29,7 @@ export const AccountScreen: FC<AccountScreenProps> = observer(function AccountSc
     try {
       setLoading(true)
       if (!user) throw new Error('No user on the session!')
-
+      if (!session?.user) throw new Error('No user on the session!')
       const { data, error, status } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
@@ -39,7 +39,7 @@ export const AccountScreen: FC<AccountScreenProps> = observer(function AccountSc
         throw error
       }
 
-      if (data) {
+      if (data && data.username && data.website && data.avatar_url) {
         setUsername(data.username)
         setWebsite(data.website)
         setAvatarUrl(data.avatar_url)

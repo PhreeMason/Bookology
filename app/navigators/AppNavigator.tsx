@@ -49,7 +49,9 @@ export type AppStackParamList = {
   Stats: undefined
   Store: undefined
   Account: undefined
-	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  BookSearch: undefined
+  Modal: undefined
+  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -92,6 +94,11 @@ const AppStack = observer(function AppStack() {
 
           <Stack.Screen name="Demo" component={DemoNavigator} />
           <Stack.Screen name="BookSchedule" component={BookScheduleNavigator} />
+          <Stack.Screen
+            name="Modal"
+            component={Screens.ModalScreen}
+            options={{ presentation: "modal",  }}
+          />
         </>
       ) : (
         <>
@@ -106,7 +113,8 @@ const AppStack = observer(function AppStack() {
 			<Stack.Screen name="Stats" component={Screens.StatsScreen} />
 			<Stack.Screen name="Store" component={Screens.StoreScreen} /> */}
       {/* <Stack.Screen name="Account" component={Screens.AccountScreen} /> */}
-			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      {/* <Stack.Screen name="BookSearch" component={Screens.BookSearchScreen} /> */}
+      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })
